@@ -20,6 +20,8 @@ class NPBeaconForest: Plugin, CLLocationManagerDelegate {
     private var rangedBeacons = [String: (beacon: CLBeacon, count: Int)]()
     private var forceForestNavigation = false
     private var locationManager = CLLocationManager()
+    private var lastLocationUpdate: NSDate?
+    private let frequencyLocationUpdate = 20
     private lazy var navigator: NPBeaconForestNavigator = {
         return NPBeaconForestNavigator(plugin: self)
     }()
@@ -138,8 +140,12 @@ class NPBeaconForest: Plugin, CLLocationManagerDelegate {
     
     // MARK: CoreLocation
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        startMonitoring()
-        startRanging()
+        lastLocationUpdate.time
+        if lastLocationUpdate == nil || lastLocationUpdate != nil && lastLocationUpdate?.timeIntervalSinceDate(NSDate()) > frequencyLocationUpdate {
+            startMonitoring()
+            startRanging()
+            lastLocationUpdate = NSDate()
+        }
     }
     func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
         enter(region)
