@@ -140,10 +140,13 @@ class NPBeaconForest: Plugin, CLLocationManagerDelegate {
     
     // MARK: CoreLocation
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if lastLocationUpdate == nil || lastLocationUpdate != nil && lastLocationUpdate?.timeIntervalSinceDate(NSDate()) > frequencyLocationUpdate {
+        if lastLocationUpdate == nil || lastLocationUpdate != nil && lastLocationUpdate!.timeIntervalSinceDate(NSDate()) * -1.0 > frequencyLocationUpdate {
+            Console.info(NPBeaconForest.self, text: "Location updated and restart monitoring and ranging")
             startMonitoring()
             startRanging()
             lastLocationUpdate = NSDate()
+        } else {
+            Console.info(NPBeaconForest.self, text: "Location updated but nothing done")
         }
     }
     func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
