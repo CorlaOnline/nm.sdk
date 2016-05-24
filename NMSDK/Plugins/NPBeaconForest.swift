@@ -21,7 +21,7 @@ class NPBeaconForest: Plugin, CLLocationManagerDelegate {
     private var forceForestNavigation = false
     private var locationManager = CLLocationManager()
     private var lastLocationUpdate: NSDate?
-    private let frequencyLocationUpdate = 20
+    private let frequencyLocationUpdate: NSTimeInterval = 20
     private lazy var navigator: NPBeaconForestNavigator = {
         return NPBeaconForestNavigator(plugin: self)
     }()
