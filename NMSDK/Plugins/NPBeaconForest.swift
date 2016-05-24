@@ -140,7 +140,6 @@ class NPBeaconForest: Plugin, CLLocationManagerDelegate {
     
     // MARK: CoreLocation
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        lastLocationUpdate.time
         if lastLocationUpdate == nil || lastLocationUpdate != nil && lastLocationUpdate?.timeIntervalSinceDate(NSDate()) > frequencyLocationUpdate {
             startMonitoring()
             startRanging()
